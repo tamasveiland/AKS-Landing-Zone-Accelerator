@@ -19,6 +19,7 @@ env:
     BLOB_ACCOUNT_NAME: aksembeden40sa
     FORM_RECOGNIZER_ENDPOINT: https://eastus.api.cognitive.microsoft.com/
     INGRESS_IP: 20.102.22.169
+    AZURE_SUBSCRIPTION_ID: cbfd2d0d-3cd2-4059-857c-29e6481532e3
 
 jobs:
     buildImage:
