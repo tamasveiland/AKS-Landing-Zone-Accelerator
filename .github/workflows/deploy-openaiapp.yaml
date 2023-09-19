@@ -1,8 +1,8 @@
 name: deploy-openaiapp
 "on":
-    push:
-        branches:
-            - openai-pipeline
+    # push:
+    #     branches:
+    #         - openai-pipeline
     workflow_dispatch: {}
 env:
     ACR_RESOURCE_GROUP: embedding-openai-rg-en40
