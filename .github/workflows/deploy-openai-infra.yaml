@@ -1,0 +1,55 @@
+name: deploy-openai-infra
+permissions:
+  id-token: write # This is required for requesting the JWT
+  contents: read  # This is required for actions/checkout
+"on":
+    push:
+        branches:
+            - openai-pipeline
+
+env:
+  BICEP_ROOT_PATH: Scenarios/AKS-OpenAI-CogServe-Redis-Embeddings/infrastructure/
+  OPENAI_NAME: oai-test-instance-eus
+  OPENAI_RG_NAME: rg-ai
+  UNIQUESTRING: tv22
+  
+  AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+  AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+  AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+ 
+jobs:
+  deploy_infrastructure:
+    runs-on: ubuntu-latest
+    name: 'Deploy Infrastructure'
+    steps:
+        
+      - name: Azure Login
+        uses: Azure/login@v1
+        if: ${{ env.AZURE_CLIENT_ID != '' && env.AZURE_TENANT_ID != '' && env.AZURE_SUBSCRIPTION_ID != ''}}
+        with:
+          client-id: ${{ env.AZURE_CLIENT_ID }}
+          tenant-id: ${{ env.AZURE_TENANT_ID }}
+          subscription-id: ${{ env.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Deploy AKS environment
+        uses: azure/arm-deploy@v1
+        if: false
+        with:
+          deploymentName: openai-aks-cluster
+          template: ${{ env.BICEP_ROOT_PATH }}main.bicep
+          parameters: openAIName=${{ env.OPENAI_NAME }} openAIRGName=${{ env.OPENAI_RG_NAME }} UniqueString=${{ env.UNIQUESTRING }}
+          scope: subscription
+          region: ${{ env.DEPLOYMENT_LOCATION }}
+          subscriptionId: ${{ env.AZURE_SUBSCRIPTION_ID }}
+          resourceGroupName: ${{ env.SPOKE_RESOURCE_GROUP }}
+          failOnStdErr: false            
+
+      # - name: Log out
+      #   uses: azure/CLI@v1
+      #   with:
+      #     inlineScript: |
+          
+      #       # Log out as per best practices for self-hosted runners (https://github.com/Azure/login#az-logout-and-security-hardening)          
+      #       az logout
+      #       az cache purge
+      #       az account clear
