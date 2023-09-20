@@ -54,7 +54,7 @@ jobs:
         with:
           # Specify the script here
           inlineScript: |
-            SIGNEDINUSER=$(az ad signed-in-user show --query id --out tsv) && echo "Current user is $SIGNEDINUSER"
+            SIGNEDINUSER='31141e66-5312-4c38-ab0e-22b984bc14d0' #$(az ad signed-in-user show --query id --out tsv) && echo "Current user is $SIGNEDINUSER"
             az deployment sub create \
               --name main-${{ env.UNIQUESTRING }} \
               --template-file ${{ env.BICEP_ROOT_PATH }}main.bicep \
