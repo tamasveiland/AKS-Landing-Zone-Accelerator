@@ -38,7 +38,7 @@ jobs:
 
       - name: Deploy AKS environment
         uses: azure/arm-deploy@v1
-        if: true
+        if: false
         with:
           deploymentName: openai-aks-cluster
           template: ${{ env.BICEP_ROOT_PATH }}main.bicep
@@ -48,6 +48,19 @@ jobs:
           subscriptionId: ${{ env.AZURE_SUBSCRIPTION_ID }}
           # resourceGroupName: ${{ env.SPOKE_RESOURCE_GROUP }}
           failOnStdErr: false            
+
+      - name: Azure CLI Action
+        uses: Azure/cli@v1.0.8
+        with:
+          # Specify the script here
+          inlineScript: |
+            SIGNEDINUSER=$(az ad signed-in-user show --query id --out tsv) && echo "Current user is $SIGNEDINUSER"
+            az deployment sub create \
+              --name main-${{ env.UNIQUESTRING }} \
+              --template-file ${{ env.BICEP_ROOT_PATH }}main.bicep \
+              --location=${{ env.DEPLOYMENT_LOCATION }} \
+              --parameters UniqueString=${{ env.UNIQUESTRING }} \
+              --parameters signedinuser=$SIGNEDINUSER    
 
       # - name: Log out
       #   uses: azure/CLI@v1
