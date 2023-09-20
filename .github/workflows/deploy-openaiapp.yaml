@@ -1,9 +1,9 @@
 name: deploy-openaiapp
 "on":
-    push:
-        branches:
-            - openai-pipeline
-    # workflow_dispatch: {}
+    # push:
+    #     branches:
+    #         - openai-pipeline
+    workflow_dispatch: {}
 env:
     ACR_RESOURCE_GROUP: embedding-openai-rg-en40
     AZURE_CONTAINER_REGISTRY: craksembeden404k2qo6zfopubm
