@@ -9,8 +9,8 @@ permissions:
 
 env:
   BICEP_ROOT_PATH: Scenarios/AKS-OpenAI-CogServe-Redis-Embeddings/infrastructure/
-  OPENAI_NAME: oai-test-instance-eus
-  OPENAI_RG_NAME: rg-ai
+  OPENAI_NAME: oai-tvtest-instance-eus
+  OPENAI_RG_NAME: rg-openai
   UNIQUESTRING: tv22
   
   AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
