@@ -33,7 +33,7 @@ jobs:
 
       - name: Deploy AKS environment
         uses: azure/arm-deploy@v1
-        if: false
+        if: true
         with:
           deploymentName: openai-aks-cluster
           template: ${{ env.BICEP_ROOT_PATH }}main.bicep
