@@ -12,6 +12,7 @@ env:
   OPENAI_NAME: oai-tvtest-instance-eus
   OPENAI_RG_NAME: rg-openai
   UNIQUESTRING: tv22
+  DEPLOYMENT_LOCATION: eastus
   
   AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
   AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
@@ -41,7 +42,7 @@ jobs:
           scope: subscription
           region: ${{ env.DEPLOYMENT_LOCATION }}
           subscriptionId: ${{ env.AZURE_SUBSCRIPTION_ID }}
-          resourceGroupName: ${{ env.SPOKE_RESOURCE_GROUP }}
+          # resourceGroupName: ${{ env.SPOKE_RESOURCE_GROUP }}
           failOnStdErr: false            
 
       # - name: Log out
