@@ -1,7 +1,7 @@
 targetScope = 'subscription'
 
 @description('Signed In User Id')
-param signedinuser string = '31141e66-5312-4c38-ab0e-22b984bc14d0'
+param signedinuser string
 
 @minLength(3)
 @maxLength(10)
