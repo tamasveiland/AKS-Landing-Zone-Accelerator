@@ -5,7 +5,7 @@ name: deploy-openai-app
             - openai-pipeline
     # workflow_dispatch: {}
 env:
-    ACR_RESOURCE_GROUP: embedding-openai-rg-en40
+    ACR_RESOURCE_GROUP: openai-embedding-rg-tv23
     AZURE_CONTAINER_REGISTRY: craksembedtv23lsv6765r3goa2
     CLUSTER_NAME: aks-aksembed-tv23
     CLUSTER_RESOURCE_GROUP: openai-embedding-rg-tv23
