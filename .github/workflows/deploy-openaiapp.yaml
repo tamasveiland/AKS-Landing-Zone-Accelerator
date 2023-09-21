@@ -81,6 +81,7 @@ jobs:
                 BLOB_ACCOUNT_NAME=${{ env.BLOB_ACCOUNT_NAME }}
                 FORM_RECOGNIZER_ENDPOINT=${{ env.FORM_RECOGNIZER_ENDPOINT }}
                 DNS_NAME=openai.${{ env.INGRESS_IP }}.nip.io
+                ACR_IMAGE=${{ env.AZURE_CONTAINER_REGISTRY }}.azurecr.io/oai-embeddings:v1
                 EOF
                 
             # Runs Kustomize to create manifest files
