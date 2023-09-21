@@ -19,7 +19,7 @@ env:
     BLOB_ACCOUNT_NAME: aksembedtv23sa
     FORM_RECOGNIZER_ENDPOINT: https://eastus.api.cognitive.microsoft.com/
     INGRESS_IP: 20.85.174.166
-
+    UNIQUESTRING: tv23
 
 jobs:
     buildImage:
@@ -79,24 +79,24 @@ jobs:
             - name: Store the resource keys Key Vault Secrets 
               shell: bash
               run: |
-                KV_NAME=$(az deployment sub show --name main-$UNIQUESTRING --query properties.outputs.kvAppName.value -o tsv) && echo "The Key Vault name is: $KV_NAME"
-                OIDCISSUERURL=$(az deployment sub show --name main-$UNIQUESTRING --query properties.outputs.aksOidcIssuerUrl.value -o tsv) && echo "The OIDC Issue URL is: $OIDCISSUERURL"
-                AKSCLUSTER=$(az deployment sub show --name main-$UNIQUESTRING --query properties.outputs.aksClusterName.value -o tsv) && echo "The AKS cluster name is: $AKSCLUSTER"
-                BLOB_ACCOUNT_NAME=$(az deployment sub show --name main-$UNIQUESTRING --query properties.outputs.blobAccountName.value -o tsv) && echo "The Azure Storage Blob account name is: $BLOB_ACCOUNT_NAME"
-                FORMREC_ACCOUNT=$(az deployment sub show --name main-$UNIQUESTRING --query properties.outputs.formRecognizerName.value -o tsv) && echo "The Document Intelligence account name is: $FORMREC_ACCOUNT"
-                FORM_RECOGNIZER_ENDPOINT=$(az deployment sub show --name main-$UNIQUESTRING --query properties.outputs.formRecognizerEndpoint.value -o tsv) && echo "The Document Intelligence endpoint URL is: $FORM_RECOGNIZER_ENDPOINT"
-                TRANSLATOR_ACCOUNT=$(az deployment sub show --name main-$UNIQUESTRING --query properties.outputs.translatorName.value -o tsv) && echo "The Translator account name is: $TRANSLATOR_ACCOUNT"
-                OPENAI_ACCOUNTNAME=$(az deployment sub show --name main-$UNIQUESTRING --query properties.outputs.openAIAccountName.value -o tsv) && echo "The Azure OpenAI account name is: $OPENAI_ACCOUNTNAME"
-                OPENAI_API_BASE=$(az deployment sub show --name main-$UNIQUESTRING  --query properties.outputs.openAIURL.value -o tsv) && echo "The Azure OpenAI instance API URL is: $OPENAI_API_BASE"
-                OPENAI_RGNAME=$(az deployment sub show --name main-$UNIQUESTRING  --query properties.outputs.openAIRGName.value -o tsv) && echo "The Azure OpenAI Resource Group is: $OPENAI_RGNAME"
-                OPENAI_ENGINE=$(az deployment sub show --name main-$UNIQUESTRING  --query properties.outputs.openAIEngineName.value -o tsv) && echo "The Azure OpenAI GPT Model is: $OPENAI_ENGINE"
-                OPENAI_EMBEDDINGS_ENGINE=$(az deployment sub show --name main-$UNIQUESTRING  --query properties.outputs.openAIEmbeddingEngine.value -o tsv) && echo "The Azure OpenAI Embedding Model is: $OPENAI_EMBEDDINGS_ENGINE"
-                ACR_NAME=$(az acr list -g $RGNAME --query '[0]'.name -o tsv)  && echo "The Azure Container Registry name is: $ACR_NAME"
+                KV_NAME=$(az deployment sub show --name main-${{ env.UNIQUESTRING }} --query properties.outputs.kvAppName.value -o tsv) && echo "The Key Vault name is: $KV_NAME"
+                OIDCISSUERURL=$(az deployment sub show --name main-${{ env.UNIQUESTRING }} --query properties.outputs.aksOidcIssuerUrl.value -o tsv) && echo "The OIDC Issue URL is: $OIDCISSUERURL"
+                AKSCLUSTER=$(az deployment sub show --name main-${{ env.UNIQUESTRING }} --query properties.outputs.aksClusterName.value -o tsv) && echo "The AKS cluster name is: $AKSCLUSTER"
+                BLOB_ACCOUNT_NAME=$(az deployment sub show --name main-${{ env.UNIQUESTRING }} --query properties.outputs.blobAccountName.value -o tsv) && echo "The Azure Storage Blob account name is: $BLOB_ACCOUNT_NAME"
+                FORMREC_ACCOUNT=$(az deployment sub show --name main-${{ env.UNIQUESTRING }} --query properties.outputs.formRecognizerName.value -o tsv) && echo "The Document Intelligence account name is: $FORMREC_ACCOUNT"
+                FORM_RECOGNIZER_ENDPOINT=$(az deployment sub show --name main-${{ env.UNIQUESTRING }} --query properties.outputs.formRecognizerEndpoint.value -o tsv) && echo "The Document Intelligence endpoint URL is: $FORM_RECOGNIZER_ENDPOINT"
+                TRANSLATOR_ACCOUNT=$(az deployment sub show --name main-${{ env.UNIQUESTRING }} --query properties.outputs.translatorName.value -o tsv) && echo "The Translator account name is: $TRANSLATOR_ACCOUNT"
+                OPENAI_ACCOUNTNAME=$(az deployment sub show --name main-${{ env.UNIQUESTRING }} --query properties.outputs.openAIAccountName.value -o tsv) && echo "The Azure OpenAI account name is: $OPENAI_ACCOUNTNAME"
+                OPENAI_API_BASE=$(az deployment sub show --name main-${{ env.UNIQUESTRING }}  --query properties.outputs.openAIURL.value -o tsv) && echo "The Azure OpenAI instance API URL is: $OPENAI_API_BASE"
+                OPENAI_RGNAME=$(az deployment sub show --name main-${{ env.UNIQUESTRING }}  --query properties.outputs.openAIRGName.value -o tsv) && echo "The Azure OpenAI Resource Group is: $OPENAI_RGNAME"
+                OPENAI_ENGINE=$(az deployment sub show --name main-${{ env.UNIQUESTRING }}  --query properties.outputs.openAIEngineName.value -o tsv) && echo "The Azure OpenAI GPT Model is: $OPENAI_ENGINE"
+                OPENAI_EMBEDDINGS_ENGINE=$(az deployment sub show --name main-${{ env.UNIQUESTRING }}  --query properties.outputs.openAIEmbeddingEngine.value -o tsv) && echo "The Azure OpenAI Embedding Model is: $OPENAI_EMBEDDINGS_ENGINE"
+                ACR_NAME=$(az acr list -g ${{ env.CLUSTER_RESOURCE_GROUP }} --query '[0]'.name -o tsv)  && echo "The Azure Container Registry name is: $ACR_NAME"
                 
                 az keyvault secret set --name openaiapikey  --vault-name $KV_NAME --value $(az cognitiveservices account keys list -g $OPENAI_RGNAME -n $OPENAI_ACCOUNTNAME --query key1 -o tsv)
-                az keyvault secret set --name formrecognizerkey  --vault-name $KV_NAME --value $(az cognitiveservices account keys list -g $RGNAME -n $FORMREC_ACCOUNT --query key1 -o tsv)
-                az keyvault secret set --name translatekey  --vault-name $KV_NAME --value $(az cognitiveservices account keys list -g $RGNAME -n $TRANSLATOR_ACCOUNT --query key1 -o tsv)
-                az keyvault secret set --name blobaccountkey  --vault-name $KV_NAME --value $(az storage account keys list -g $RGNAME -n $BLOB_ACCOUNT_NAME --query \[1\].value -o tsv)
+                az keyvault secret set --name formrecognizerkey  --vault-name $KV_NAME --value $(az cognitiveservices account keys list -g ${{ env.CLUSTER_RESOURCE_GROUP }} -n $FORMREC_ACCOUNT --query key1 -o tsv)
+                az keyvault secret set --name translatekey  --vault-name $KV_NAME --value $(az cognitiveservices account keys list -g ${{ env.CLUSTER_RESOURCE_GROUP }} -n $TRANSLATOR_ACCOUNT --query key1 -o tsv)
+                az keyvault secret set --name blobaccountkey  --vault-name $KV_NAME --value $(az storage account keys list -g ${{ env.CLUSTER_RESOURCE_GROUP }} -n $BLOB_ACCOUNT_NAME --query \[1\].value -o tsv)
 
                 echo Done.
 
