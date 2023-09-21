@@ -6,19 +6,19 @@ name: deploy-openaiapp
     workflow_dispatch: {}
 env:
     ACR_RESOURCE_GROUP: embedding-openai-rg-en40
-    AZURE_CONTAINER_REGISTRY: craksembeden404k2qo6zfopubm
-    CLUSTER_NAME: aks-aksembed-en40
-    CLUSTER_RESOURCE_GROUP: embedding-openai-rg-en40
+    AZURE_CONTAINER_REGISTRY: craksembedtv23lsv6765r3goa2
+    CLUSTER_NAME: aks-aksembed-tv23
+    CLUSTER_RESOURCE_GROUP: openai-embedding-rg-tv23
     CONTAINER_NAME: oai-embeddings
     KUSTOMIZE_PATH: ./Scenarios/AKS-OpenAI-CogServe-Redis-Embeddings/kubernetes/
-    KV_NAME: kv-aksembeden404k2qo6zfo
-    OPENAI_API_BASE: https://openaiaccelerator.openai.azure.com/
+    KV_NAME: kv-aksembedtv23lsv6765r3
+    OPENAI_API_BASE: https://aksembedtv23.openai.azure.com/
     OPENAI_ENGINE: gpt-35-turbo
     OPENAI_EMBEDDINGS_ENGINE: text-embedding-ada-002
     LOCATION: eastus
-    BLOB_ACCOUNT_NAME: aksembeden40sa
+    BLOB_ACCOUNT_NAME: aksembedtv23sa
     FORM_RECOGNIZER_ENDPOINT: https://eastus.api.cognitive.microsoft.com/
-    INGRESS_IP: 20.102.22.169
+    INGRESS_IP: 20.85.174.166
 
 
 jobs:
