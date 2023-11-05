@@ -3,10 +3,10 @@ permissions:
   id-token: write # This is required for requesting the JWT
   contents: read  # This is required for actions/checkout
 "on":
-    # push:
-    #     branches:
-    #         - openai-pipeline
-    workflow_dispatch: {}
+    push:
+        branches:
+            - openai-pipeline
+    # workflow_dispatch: {}
 
 env:
   BICEP_ROOT_PATH: Scenarios/AKS-OpenAI-CogServe-Redis-Embeddings/infrastructure/
